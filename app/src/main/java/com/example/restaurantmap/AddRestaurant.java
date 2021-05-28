@@ -70,6 +70,7 @@ public class AddRestaurant extends AppCompatActivity {
 
         Intent createIntent = new Intent(this, ShowRestaurant.class);
         createIntent.putExtra("location",location.getText().toString());
+        createIntent.putExtra("title", name.getText().toString());
         startActivity(createIntent);
     }
 
@@ -114,19 +115,30 @@ public class AddRestaurant extends AppCompatActivity {
         String locationName = name.getText().toString();
         String locationAddress = location.getText().toString();
 
-
-        LatLng coordinates =  convertAddress(locationAddress);
-
-        long result = db.insertLocation(new Locations(locationName, coordinates.latitude, coordinates.longitude));
-
-        if (result > 0)
+        if (locationAddress.isEmpty())
         {
-            Toast.makeText(this, "Restaurant saved successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Enter an Address", Toast.LENGTH_SHORT).show();
+        }
+        else if(locationName.isEmpty())
+        {
+            Toast.makeText(this, "Enter Location Name", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            Toast.makeText(this, "Restaurant not saved", Toast.LENGTH_SHORT).show();
+            LatLng coordinates =  convertAddress(locationAddress);
+
+            long result = db.insertLocation(new Locations(locationName, coordinates.latitude, coordinates.longitude));
+
+            if (result > 0)
+            {
+                Toast.makeText(this, "Restaurant saved successfully", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(this, "Restaurant not saved", Toast.LENGTH_SHORT).show();
+            }
         }
+
 
 
 

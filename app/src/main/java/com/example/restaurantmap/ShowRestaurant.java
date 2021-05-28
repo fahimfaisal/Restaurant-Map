@@ -24,17 +24,22 @@ public class ShowRestaurant extends FragmentActivity implements OnMapReadyCallba
     LatLng p1;
     private GoogleMap mMap;
     List<Address> address;
+    String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_restaurant);
 
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         Geocoder coder = new Geocoder(ShowRestaurant.this, Locale.getDefault());
 
         Intent intent = getIntent();
         String loc = intent.getStringExtra("location");
-
+        name = intent.getStringExtra("title");
 
         try {
             // May throw an IOException
@@ -47,12 +52,6 @@ public class ShowRestaurant extends FragmentActivity implements OnMapReadyCallba
 
             ex.printStackTrace();
         }
-
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
     /**
@@ -69,12 +68,9 @@ public class ShowRestaurant extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
 
 
-
-
-
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(p1.latitude, p1.longitude);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng location = new LatLng(p1.latitude, p1.longitude);
+        mMap.addMarker(new MarkerOptions().position(location).title(name));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,10));
     }
 }

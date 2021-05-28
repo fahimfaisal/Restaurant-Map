@@ -58,7 +58,7 @@ public class ShowAllRestaurants extends FragmentActivity implements OnMapReadyCa
 
             double lat = locations.get(i).getLatitude();
             double lon = locations.get(i).getLongitude();
-            mMap.addMarker(new MarkerOptions().position(new LatLng(lat,lon)).title(locations.get(i).getTitle().toString()));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(lat,lon)).title(locations.get(i).getTitle()));
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lon),10));
         }
